@@ -13,5 +13,5 @@ export function updatePortalDataInput<K extends keyof PortalDataInput>(
   key: K,
   value: PortalDataInput[K]
 ) {
-  portalDataInput[chatId] = { [key]: value, ...portalDataInput[chatId] };
+  portalDataInput[chatId] = { ...portalDataInput[chatId], [key]: value };
 }

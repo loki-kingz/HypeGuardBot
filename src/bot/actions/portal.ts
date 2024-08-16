@@ -1,5 +1,6 @@
-import { addDocument } from "@/firebase";
+import { addDocument, getDocument, updateDocumentById } from "@/firebase";
 import { teleBot } from "@/index";
+import { StoredPortalData } from "@/types/portalData";
 import {
   defaultMedia,
   defaultText,
@@ -7,7 +8,6 @@ import {
 } from "@/utils/constants";
 import { isValidInviteLink } from "@/utils/general";
 import {
-  PortalDataInput,
   portalDataInput,
   updatePortalDataInput,
   userState,
@@ -27,8 +27,6 @@ export async function inputGroupLink(ctx: CallbackQueryContext<Context>) {
     return ctx.reply(
       "Couldn't find the portal channel ID, please do /start again"
     );
-
-  teleBot.api.sendMessage(portalChannelId, "test");
 
   updatePortalDataInput(chatId, "media", defaultMedia);
   updatePortalDataInput(chatId, "text", defaultText);
@@ -155,17 +153,30 @@ export async function createPortal(ctx: CallbackQueryContext<Context>) {
   if (!portalData) return ctx.reply("Please do /start again.");
   const { channelId, text, media } = portalData;
 
-  await addDocument<PortalDataInput>({
-    collectionName: "portal_data",
-    data: portalData,
-  });
+  const channelAlreadyStored = (
+    await getDocument<StoredPortalData>({
+      collectionName: "portal_data",
+      queries: [["channelId", "==", channelId]],
+    })
+  ).at(0);
+
+  if (channelAlreadyStored) {
+    await updateDocumentById<StoredPortalData>({
+      collectionName: "portal_data",
+      id: channelAlreadyStored.id || "",
+      updates: portalData,
+    });
+  } else {
+    await addDocument<StoredPortalData>({
+      collectionName: "portal_data",
+      data: portalData,
+    });
+  }
 
   ctx.reply("✅ Portal created successfully!!");
 
-  const message = teleBot.api.sendPhoto(channelId, media, {
+  teleBot.api.sendPhoto(channelId, media, {
     caption: text,
     reply_markup: verificationKeyboard,
   });
-
-  teleBot.api.pinChatMessage(channelId, (await message).message_id);
 }

