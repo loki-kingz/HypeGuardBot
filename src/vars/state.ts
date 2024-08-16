@@ -6,4 +6,12 @@ export interface PortalDataInput {
   text: string;
   channelId: number;
 }
-export const portalDataInput: { [key: number]: Partial<PortalDataInput> } = {};
+
+export const portalDataInput: { [key: number]: PortalDataInput } = {};
+export function updatePortalDataInput<K extends keyof PortalDataInput>(
+  chatId: number,
+  key: K,
+  value: PortalDataInput[K]
+) {
+  portalDataInput[chatId] = { [key]: value, ...portalDataInput[chatId] };
+}

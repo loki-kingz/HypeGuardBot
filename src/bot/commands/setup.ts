@@ -36,6 +36,7 @@ export async function setUpBot(ctx: CommandContext<Context>) {
         can_post_stories: false,
         can_edit_stories: false,
         can_delete_stories: false,
+        can_post_messages: true,
       },
     })
     .resized()

@@ -2,10 +2,16 @@ import { CallbackQueryContext, CommandContext, Context } from "grammy";
 import { log } from "@/utils/handlers";
 import { userState } from "@/vars/state";
 import {
+  createPortal,
   inputGroupLink,
+  previewPortal,
   setGroupLink,
   setMedia,
   setMediaInput,
+  setText,
+  setTextInput,
+  viewMedia,
+  viewText,
 } from "./actions/portal";
 
 const steps: { [key: string]: any } = {
@@ -13,6 +19,14 @@ const steps: { [key: string]: any } = {
 
   setMediaInput,
   setMedia,
+  viewMedia,
+
+  setTextInput,
+  setText,
+  viewText,
+
+  previewPortal,
+  createPortal,
 };
 
 const requestIds: { [key: number]: any } = {
