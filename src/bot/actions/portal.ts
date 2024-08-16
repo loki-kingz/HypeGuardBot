@@ -142,7 +142,7 @@ export async function previewPortal(ctx: CallbackQueryContext<Context>) {
 
   ctx.replyWithPhoto(media, {
     caption: text,
-    reply_markup: verificationKeyboard,
+    reply_markup: verificationKeyboard(portalData.channelId),
   });
 }
 
@@ -177,6 +177,6 @@ export async function createPortal(ctx: CallbackQueryContext<Context>) {
 
   teleBot.api.sendPhoto(channelId, media, {
     caption: text,
-    reply_markup: verificationKeyboard,
+    reply_markup: verificationKeyboard(channelId),
   });
 }

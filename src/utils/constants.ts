@@ -10,8 +10,9 @@ export const defaultText = `The group is protected by @${BOT_USERNAME}.
 Click below to start human verification.`;
 
 export const verificationLink =
-  "https://dl.cash/portal/?tgWebAppStartParam=Lszb_DZbnXBEpe7R3_lxucRRfhDpxI-LrL2dNbNmOKv-AsoPMFhbL5NQEtrj4-ZMKBYaYWCTIhV0iw==";
-export const verificationKeyboard = new InlineKeyboard().url(
-  "Tap to verify",
-  verificationLink
-);
+  "https://hype-guard-web-app.vercel.app?channelId=-1002202275068";
+export const verificationKeyboard = (channelId: number) =>
+  new InlineKeyboard().webApp(
+    "Tap to verify",
+    `${verificationLink}?channelId=${channelId}`
+  );
