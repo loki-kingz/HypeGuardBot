@@ -3,6 +3,7 @@ import { CommandContext, Context, InlineKeyboard } from "grammy";
 import { setUpBot } from "./setup";
 import { verificationLink } from "@/utils/constants";
 import { portalsData } from "@/vars/portalsData";
+import { encrypt } from "@/utils/cryptography";
 
 export async function startBot(ctx: CommandContext<Context>) {
   const { match } = ctx;
@@ -13,9 +14,10 @@ export async function startBot(ctx: CommandContext<Context>) {
     if (!portalData) return;
 
     const { text, media, link } = portalData;
+    const encryptedLink = encrypt(link);
     const keyboard = new InlineKeyboard().webApp(
       "🛡️ Tap to verify",
-      `${verificationLink}?${link}`
+      `${verificationLink}${encryptedLink}`
     );
     return ctx.replyWithPhoto(media, { caption: text, reply_markup: keyboard });
   }
