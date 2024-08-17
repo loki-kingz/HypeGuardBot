@@ -7,6 +7,7 @@ import {
   verificationKeyboard,
 } from "@/utils/constants";
 import { isValidInviteLink } from "@/utils/general";
+import { syncPortalsData } from "@/vars/portalsData";
 import {
   portalDataInput,
   updatePortalDataInput,
@@ -179,4 +180,6 @@ export async function createPortal(ctx: CallbackQueryContext<Context>) {
     caption: text,
     reply_markup: verificationKeyboard(channelId),
   });
+
+  syncPortalsData();
 }

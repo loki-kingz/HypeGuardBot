@@ -2,6 +2,7 @@ import { Bot } from "grammy";
 import { initiateBotCommands, initiateCallbackQueries } from "./bot";
 import { log } from "./utils/handlers";
 import { BOT_TOKEN } from "./utils/env";
+import { syncPortalsData } from "./vars/portalsData";
 
 export const teleBot = new Bot(BOT_TOKEN || "");
 log("Bot instance ready");
@@ -14,6 +15,8 @@ const interval = 20;
   log("Telegram bot setup");
   initiateBotCommands();
   initiateCallbackQueries();
+
+  await Promise.all([syncPortalsData()]);
 
   async function toRepeat() {
     //
