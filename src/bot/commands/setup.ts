@@ -1,7 +1,8 @@
 import { CommandContext, Context, Keyboard } from "grammy";
 
 export async function setUpBot(ctx: CommandContext<Context>) {
-  const text = "❔ Click below select the channel to convert into a portal.";
+  const text =
+    "❔ Click below and select the channel to convert into a portal.";
   const keyboard = new Keyboard()
     .requestChat(text, 7, {
       chat_is_channel: true,
