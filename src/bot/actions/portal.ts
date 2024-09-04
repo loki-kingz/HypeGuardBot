@@ -18,9 +18,10 @@ import {
   CommandContext,
   Context,
   InlineKeyboard,
+  Keyboard,
 } from "grammy";
 
-export async function inputGroupLink(ctx: CallbackQueryContext<Context>) {
+export async function setGroup(ctx: CallbackQueryContext<Context>) {
   const chatId = ctx.from.id;
   const portalChannelId = ctx.update.message?.chat_shared?.chat_id;
 
@@ -33,24 +34,67 @@ export async function inputGroupLink(ctx: CallbackQueryContext<Context>) {
   updatePortalDataInput(chatId, "text", defaultText);
   updatePortalDataInput(chatId, "channelId", portalChannelId);
 
-  const text = "❔ Send me original group's link.";
-  userState[chatId] = "setGroupLink";
+  const text = "❔ Click below and select the group to create the portal for.";
 
-  ctx.reply(text);
+  const keyboard = new Keyboard()
+    .requestChat(text, 8, {
+      chat_is_channel: false,
+      user_administrator_rights: {
+        is_anonymous: false,
+        can_manage_chat: true,
+        can_delete_messages: true,
+        can_manage_video_chats: false,
+        can_restrict_members: true,
+        can_promote_members: true,
+        can_change_info: true,
+        can_invite_users: true,
+        can_post_stories: false,
+        can_edit_stories: false,
+        can_delete_stories: false,
+        can_pin_messages: true,
+        can_post_messages: true,
+      },
+      bot_administrator_rights: {
+        can_manage_chat: true,
+        can_post_messages: true,
+        is_anonymous: false,
+        can_delete_messages: true,
+        can_manage_video_chats: false,
+        can_restrict_members: true,
+        can_promote_members: true,
+        can_change_info: true,
+        can_invite_users: true,
+        can_post_stories: false,
+        can_edit_stories: false,
+        can_delete_stories: false,
+      },
+    })
+    .resized()
+    .oneTime();
+
+  ctx.reply(text, { reply_markup: keyboard });
+  // userState[chatId] = "setGroupLink";
+
+  // ctx.reply(text);
 }
 
-export async function setGroupLink(ctx: CommandContext<Context>) {
-  const chatId = ctx.chat.id;
-  const inviteLink = ctx.message?.text;
+export async function setGroupLink(ctx: CallbackQueryContext<Context>) {
+  const chatId = ctx.from.id;
+  const groupId = ctx.update.message?.chat_shared?.chat_id;
 
-  if (!inviteLink) return;
+  if (!groupId)
+    return ctx.reply("Couldn't find the group ID, please do /start again");
 
-  if (!isValidInviteLink(inviteLink)) {
+  const { invite_link } = await teleBot.api.createChatInviteLink(groupId);
+
+  if (!invite_link) return;
+
+  if (!isValidInviteLink(invite_link)) {
     return ctx.reply("Please enter a valid URL");
   }
 
   delete userState[chatId];
-  updatePortalDataInput(chatId, "link", inviteLink);
+  updatePortalDataInput(chatId, "link", invite_link);
   const text = `❔ Select the settings and click "Create Portal":`;
 
   const keyboard = new InlineKeyboard()

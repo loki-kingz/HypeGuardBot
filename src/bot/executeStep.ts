@@ -3,8 +3,8 @@ import { log } from "@/utils/handlers";
 import { userState } from "@/vars/state";
 import {
   createPortal,
-  inputGroupLink,
   previewPortal,
+  setGroup,
   setGroupLink,
   setMedia,
   setMediaInput,
@@ -31,7 +31,8 @@ const steps: { [key: string]: any } = {
 
 const requestIds: { [key: number]: any } = {
   0: () => null,
-  7: inputGroupLink,
+  7: setGroup,
+  8: setGroupLink,
 };
 
 export async function executeStep(
