@@ -104,6 +104,8 @@ export async function setGroupLink(ctx: CallbackQueryContext<Context>) {
     .text("📝 Set Text", "setTextInput")
     .text("View current text", "viewText")
     .row()
+    .text("⚫ Buttons", "addButtons")
+    .row()
     .text("🔍 Preview Portal", "previewPortal")
     .row()
     .text("✅ Create Portal", "createPortal");
@@ -187,7 +189,7 @@ export async function previewPortal(ctx: CallbackQueryContext<Context>) {
 
   ctx.replyWithPhoto(media, {
     caption: text,
-    reply_markup: verificationKeyboard(portalData.channelId),
+    reply_markup: verificationKeyboard(chatId, portalData.channelId),
   });
 }
 
@@ -222,7 +224,7 @@ export async function createPortal(ctx: CallbackQueryContext<Context>) {
 
   teleBot.api.sendPhoto(channelId, media, {
     caption: text,
-    reply_markup: verificationKeyboard(channelId),
+    reply_markup: verificationKeyboard(chatId, channelId),
   });
 
   syncPortalsData();

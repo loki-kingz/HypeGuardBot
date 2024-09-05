@@ -13,6 +13,15 @@ import {
   viewMedia,
   viewText,
 } from "./actions/portal";
+import {
+  addButton,
+  addButtons,
+  changeVerifyButtonTitle,
+  deleteButton,
+  editVerifyButton,
+  getButtonData,
+  saveButtons,
+} from "./actions/buttons";
 
 const steps: { [key: string]: any } = {
   setGroupLink,
@@ -27,6 +36,14 @@ const steps: { [key: string]: any } = {
 
   previewPortal,
   createPortal,
+
+  addButtons,
+  addButton,
+  getButtonData,
+  deleteButton,
+  editVerifyButton,
+  changeVerifyButtonTitle,
+  saveButtons,
 };
 
 const requestIds: { [key: number]: any } = {
@@ -44,8 +61,9 @@ export async function executeStep(
   const chatId = ctx.chat?.id;
   if (!chatId) return ctx.reply("Please redo your action");
 
+  const userStateCategory = userState[chatId]?.split("-").at(0);
   const queryCategory = ctx.callbackQuery?.data?.split("-").at(0);
-  const step = userState[chatId] || queryCategory || "";
+  const step = userStateCategory || queryCategory || "";
   const stepFunction = steps[step];
 
   if (stepFunction) {
