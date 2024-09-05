@@ -137,6 +137,8 @@ export async function saveButtons(ctx: CallbackQueryContext<Context>) {
     buttonData: { verifyButton: verifyText, customButtons: buttonsData },
   };
 
+  ctx.deleteMessage();
+
   const text = `❔ Select the settings and click "Create Portal":`;
 
   const keyboard = new InlineKeyboard()
