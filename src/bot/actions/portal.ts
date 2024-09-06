@@ -82,12 +82,16 @@ export async function setGroupLink(ctx: CallbackQueryContext<Context>) {
   const chatId = ctx.from.id;
   const groupId = ctx.update.message?.chat_shared?.chat_id;
 
+  if (!portalDataInput[chatId]) return ctx.reply("Please do /start");
+
   if (!groupId)
     return ctx.reply("Couldn't find the group ID, please do /start again");
 
   const { invite_link } = await teleBot.api.createChatInviteLink(groupId);
-
-  if (!invite_link) return;
+  if (!invite_link)
+    return ctx.reply(
+      "Bot couldn't make an invite link for the group. Please try again."
+    );
 
   if (!isValidInviteLink(invite_link)) {
     return ctx.reply("Please enter a valid URL");
