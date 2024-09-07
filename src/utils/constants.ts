@@ -33,3 +33,5 @@ export const verificationKeyboard = (chatId: number, channelId: number) => {
 
   return keyboard;
 };
+
+export const defaultVerifyText = "Tap to verify";

@@ -1,3 +1,4 @@
+import { defaultVerifyText } from "@/utils/constants";
 import {
   ButtonData,
   buttonStateData,
@@ -134,7 +135,10 @@ export async function saveButtons(ctx: CallbackQueryContext<Context>) {
 
   portalDataInput[chatId] = {
     ...portalDataInput[chatId],
-    buttonData: { verifyButton: verifyText, customButtons: buttonsData },
+    buttonData: {
+      verifyButton: verifyText || defaultVerifyText,
+      customButtons: buttonsData,
+    },
   };
 
   ctx.deleteMessage();
