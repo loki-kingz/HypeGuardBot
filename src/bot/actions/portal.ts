@@ -203,7 +203,7 @@ export async function createPortal(ctx: CallbackQueryContext<Context>) {
   const chatId = ctx.from.id;
   const portalData = portalDataInput[chatId];
 
-  console.log(portalData);
+  console.log(JSON.stringify(portalData));
 
   if (!portalData) return ctx.reply("Please do /start again.");
   const { channelId, text, media } = portalData;
