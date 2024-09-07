@@ -13,6 +13,7 @@ import {
   portalDataInput,
   updatePortalDataInput,
   userState,
+  verifyButtonStateData,
 } from "@/vars/state";
 import {
   CallbackQueryContext,
@@ -229,6 +230,7 @@ export async function createPortal(ctx: CallbackQueryContext<Context>) {
 
   delete portalDataInput[chatId];
   delete buttonStateData[chatId];
+  delete verifyButtonStateData[chatId];
 
   teleBot.api.sendPhoto(channelId, media, {
     caption: text,
