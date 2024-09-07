@@ -226,6 +226,8 @@ export async function createPortal(ctx: CallbackQueryContext<Context>) {
 
   ctx.reply("✅ Portal created successfully!!");
 
+  delete portalDataInput[chatId];
+
   teleBot.api.sendPhoto(channelId, media, {
     caption: text,
     reply_markup: verificationKeyboard(chatId, channelId),
