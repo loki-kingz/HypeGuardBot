@@ -9,6 +9,7 @@ import {
 import { isValidInviteLink } from "@/utils/general";
 import { syncPortalsData } from "@/vars/portalsData";
 import {
+  buttonStateData,
   portalDataInput,
   updatePortalDataInput,
   userState,
@@ -227,6 +228,7 @@ export async function createPortal(ctx: CallbackQueryContext<Context>) {
   ctx.reply("✅ Portal created successfully!!");
 
   delete portalDataInput[chatId];
+  delete buttonStateData[chatId];
 
   teleBot.api.sendPhoto(channelId, media, {
     caption: text,
